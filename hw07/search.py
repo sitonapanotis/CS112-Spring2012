@@ -15,7 +15,6 @@ xFind = int(raw_input("Which number should I find: "))
 lom = 0
 lenM = len(nums)-1
 
-print lenM
 while lenM >= lom:
     md = lenM + lom/2
     if nums[md] == xFind:
