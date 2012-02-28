@@ -4,6 +4,9 @@ tron.py
 
 The simple game of tron with two players.  Press the space bar to start the game.  Player 1 (red) is controlled with WSAD and player 2 (blue) is controlled with the arrow keys.  Once the game is over, press space to reset and then again to restart.  Escape quits the program.
 """
+"""
+i couldnt finish this homework i am having problems with the collision
+"""
 
 import pygame
 from pygame import draw
@@ -54,28 +57,23 @@ def drawLiteBike(surf, pos, color):
 def collision(tail1, tail2):
     win = ""
     done = False
-    t1 = tail1
-    t2 = tail2
-    print tail1
-    print t1
-    front1 = t1[-1]
-    front2 = t2[-1]
-    print "tail2", tail2
-    print front1
-    #if len(t1) < 2:
-     #   del t1[-1]
-     #   del t2[-1]
-    tailOneSelf = t1[0: -2]
-    print tailOneSelf
-    tailTwoSelf = t2[0: -2]
-    if front1 in tail2 or front1 in tailOneSelf:
+    t1 = list(tail1)
+    t2 = list(tail2)
+    front1 = list(t1.pop())
+    front2 = list(t2.pop())
+    tailOneLessFrnt = t1
+    tailTwoLessFrnt = t2
+    
+    
+    #print tailOneLessFrnt, t1,t2,front1,front2, tail1
+    if front1 in tail2 or front1 in tailOneLessFrnt:
         win = "player 2 (red)"
         done = True
-    if front2 in tail2 or front1 in tailTwoSelf:
+    if front2 in tail2 or front1 in tailTwoLessFrnt:
         win = "player 1 (blue)"
         done = True
-    print "colis", t1, front1, tailOneSelf, tail1
-    return done, win, tail1
+    #print "colis", t1, front1, tailOneLessFrnt, tail1
+    return done, win
 
 done = False
 win =""
@@ -95,13 +93,12 @@ clock = pygame.time.Clock()
 
 
 while not done:
-    screen.fill((0,0,0))
+    #screen.fill((0,0,0))
     drawLiteBike(screen, pos1, RED)
     drawLiteBike(screen, pos2, BLUE)
     p1tail.append(pos1)
     p2tail.append(pos2)
-    print p1tail
-    colis1 , colis2 = p1tail, p2tail
+    #print p1tail
     pos1 = move(pos1, dir1)
     pos2 = move(pos2, dir2)
     
@@ -119,11 +116,12 @@ while not done:
         elif evt.type == KEYDOWN and evt.key == p2[1]:
             dir2 = turnRight(dir2)
         
-    print p1tail        
-    done, win, p1tail= collision(colis1, colis2)
+    #print p1tail        
+    done, win, = collision(p1tail, p2tail)
     pygame.display.flip()
-    clock.tick(FPS)
-    print done, win, p1tail
+    clock.tick(3*FPS)
+
+print done, win
 
 #print "s% won the game" % win
 print "the end"
