@@ -16,7 +16,13 @@ manipulate python dictionaries.
 
 def freq(data):
     "calculate the frequency for each value in data"
-
+    counts = {}
+    for v in data:
+        if v not in counts:
+            counts[v] = 0
+        counts[v] += 1
+    return counts
+    
 
 
 # 2. Movie Reviews
@@ -41,12 +47,28 @@ movies = {}
 
 def score(title, value):
     "register the score for a given movie out of 5"
+    if title not in movies:
+        movies[title] = []
+    movies[title].append(value)
+
 
 
 def avg_score(title):
     "return the average score for a given movie"
+    if title not in movies:
+        return None
 
+    total = 0.0
+    for i in movies[title]:
+        total += i
+    num = len(movies[title])
 
+    return total/num
+
+#score("the one", 5)
+#score("the one", 4)
+#score("the one", (1,3))
+#average = avg_score("the one")
 
 # 3. parse_csv (Advanced)
 #        Takes an input string and spits back a list of comma

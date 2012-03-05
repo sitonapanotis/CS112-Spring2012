@@ -52,24 +52,18 @@ def drawLiteBike(surf, pos, color):
 
     x,y = pos[0], pos[1]
 
-    pygame.draw.rect(surf , color, (x,y,4,4))
+    pygame.draw.rect(surf , color, (x*4,y*4,4,4))
 
-def collision(tail1, tail2):
+def collision(pos1, pos2, tail1, tail2):
     win = ""
     done = False
-    t1 = list(tail1)
-    t2 = list(tail2)
-    front1 = list(t1.pop())
-    front2 = list(t2.pop())
-    tailOneLessFrnt = t1
-    tailTwoLessFrnt = t2
     
     
     #print tailOneLessFrnt, t1,t2,front1,front2, tail1
-    if front1 in tail2 or front1 in tailOneLessFrnt:
+    if pos1 in tail1 or pos1 in tail2:
         win = "player 2 (red)"
         done = True
-    if front2 in tail2 or front1 in tailTwoLessFrnt:
+    if pos2 in tail1 or pos2 in tail2:
         win = "player 1 (blue)"
         done = True
     #print "colis", t1, front1, tailOneLessFrnt, tail1
@@ -79,8 +73,8 @@ done = False
 win =""
 p1 = K_LEFT, K_RIGHT
 p2 = K_a, K_d
-pos1 = (599, 299)
-pos2 = (199, 299)
+pos1 = (600/4, 300/4)
+pos2 = (200/4, 300/4)
 dir1 = -1, 0
 dir2 = 1, 0
 p1tail = []
@@ -92,16 +86,7 @@ screen = pygame.display.set_mode(SCREEN_SIZE)
 clock = pygame.time.Clock()
 
 
-while not done:
-    #screen.fill((0,0,0))
-    drawLiteBike(screen, pos1, RED)
-    drawLiteBike(screen, pos2, BLUE)
-    p1tail.append(pos1)
-    p2tail.append(pos2)
-    #print p1tail
-    pos1 = move(pos1, dir1)
-    pos2 = move(pos2, dir2)
-    
+while not done:    
     for evt in pygame.event.get():
         if evt.type == QUIT:
             done = True
@@ -116,12 +101,25 @@ while not done:
         elif evt.type == KEYDOWN and evt.key == p2[1]:
             dir2 = turnRight(dir2)
         
-    #print p1tail        
-    done, win, = collision(p1tail, p2tail)
+    # update        
+    pos1 = move(pos1, dir1)
+    pos2 = move(pos2, dir2)
+    
+    done, win = collision(pos1, pos2, p1tail, p2tail)
+
+    if not done:
+        p1tail.append(pos1)
+        p2tail.append(pos2)
+
+        # draw
+        drawLiteBike(screen, pos1, RED)
+        drawLiteBike(screen, pos2, BLUE)
+
     pygame.display.flip()
-    clock.tick(3*FPS)
+    clock.tick(FPS)
 
 print done, win
 
 #print "s% won the game" % win
 print "the end"
+pygame.quit()

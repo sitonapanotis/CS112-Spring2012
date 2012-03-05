@@ -57,6 +57,7 @@ class MovieAvgScoreTest(unittest.TestCase):
             dicts.score(title, v)
 
         result = dicts.avg_score(title)
+        print result
         movie = dicts.movies.get(title)
         self.assertEquals( result, expected, "Incorrect average.\nValue of movies[%r]: %r" % (title, movie))
 
