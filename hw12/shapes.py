@@ -4,7 +4,34 @@
 # Define a shape object.  This object has abstract (empty) 
 # methods for calculating the area and perimeter of the 
 # shape.
-#
+import math
+
+class Shape(object):
+    def __init__(self):
+        pass
+    def area(self):
+        pass
+    def perimeter(self):
+        pass
+
+class Rect(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    def area(self):
+        return self.width*self.height
+    def perimeter(self):
+        return 2*self.width + 2*self.height
+class Square(Rect):
+    def __init__(self, side):
+        Rect.__init__(self, side, side)
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    def area(self):
+        return math.pi * (self.radius**2)
+    def perimeter(self):
+        return (2*math.pi) * self.radius
 # After that, create classes for Rectangles, Squares, 
 # and Circles.
 # 

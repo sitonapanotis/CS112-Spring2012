@@ -226,7 +226,7 @@ def game(tile, width, height, num_bombs):
 ##aplication
 def main():
     pygame.init()
-    game(50,10,10,10)
+    game(30,10,20,30)
 
 main()
 print "bye bye"
